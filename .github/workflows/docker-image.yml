@@ -1,0 +1,26 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: docker-latest
+    env:
+        app-name: docker_file.o
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build -t docker_image .
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.2
+      with: 
+        name: docker build artifact
+        path: docker_file.o
+        retention-days: 1
